@@ -19,10 +19,10 @@ var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connection));
 
-if(builder.Environment.IsDevelopment())
-{
-    MigrateDatabase(connection);
-}
+//if(builder.Environment.IsDevelopment())
+//{
+//    MigrateDatabase(connection);
+//}
 
 builder.Services.AddApiVersioning();
 
@@ -45,22 +45,22 @@ app.MapControllers();
 
 app.Run();
 
-void MigrateDatabase(string connection)
-{
-    try
-    {
-        var evolveConnection = new Npgsql.NpgsqlConnection(connection);
-        var evolve = new Evolve(evolveConnection, Log.Information)
-        {
-            Locations = new List<string> { "db/migrations", "db/dataset" },
-            IsEraseDisabled = true,
-            CommandTimeout = 60
-        };
-        evolve.Migrate();
-    }
-    catch (Exception ex)
-    {
-       Log.Error("Database migration failed:", ex);
-        return;
-    }
-}
+//void MigrateDatabase(string connection)
+//{
+//    try
+//    {
+//        var evolveConnection = new Npgsql.NpgsqlConnection(connection);
+//        var evolve = new Evolve(evolveConnection, Log.Information)
+//        {
+//            Locations = new List<string> { "db/migrations", "db/dataset" },
+//            IsEraseDisabled = true,
+//            CommandTimeout = 60
+//        };
+//        evolve.Migrate();
+//    }
+//    catch (Exception ex)
+//    {
+//       Log.Error("Database migration failed:", ex);
+//        return;
+//    }
+//}
