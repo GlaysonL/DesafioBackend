@@ -81,7 +81,7 @@ namespace DesafioBackend.Repository.Implementations
            var moto = _context.Motos.SingleOrDefault(m => m.Id == id);
             if (moto == null)
             {
-                throw new KeyNotFoundException($"Não foi encontrada moto com o ID {id}");
+                throw new KeyNotFoundException("Dados inválidos");
             }
             try
             {

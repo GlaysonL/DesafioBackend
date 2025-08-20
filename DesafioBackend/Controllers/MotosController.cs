@@ -1,7 +1,8 @@
 using Asp.Versioning;
-using DesafioBackend.Model;
 using DesafioBackend.Business;
+using DesafioBackend.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 
 namespace DesafioBackend.Controllers;
 
@@ -98,10 +99,18 @@ public class MotosController : ControllerBase
 
     [HttpDelete("{id}")]
     public IActionResult RemoverMoto(long id)
-    {       
-        _motoBusiness.DeletarMoto(id);
+    {
+        try
+        {
+            _motoBusiness.DeletarMoto(id);
 
-        return Ok();
+            return Ok();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { mensagem = ex.Message });
+        }
+
     }
 }
 
