@@ -24,13 +24,7 @@ namespace DesafioBackend.Controllers
             var newRental = _rentalBusiness.Register(rental);
             return Created("", newRental);
         }
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Rental>), 200)]
-        public IActionResult GetAll()
-        {
-            var list = _rentalBusiness.GetAll();
-            return Ok(list);
-        }
+     
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Rental), 200)]
         [ProducesResponseType(typeof(ResponseDTO), 404)]
@@ -49,13 +43,6 @@ namespace DesafioBackend.Controllers
             _rentalBusiness.RegisterReturn(id, returnDate);
             return Ok(new { mensagem = "Data de devolução informada com sucesso" });
         }
-        [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(object), 200)]
-        [ProducesResponseType(typeof(ResponseDTO), 400)]
-        public IActionResult Delete(long id)
-        {
-            _rentalBusiness.Delete(id);
-            return Ok();
-        }
+     
     }
 }

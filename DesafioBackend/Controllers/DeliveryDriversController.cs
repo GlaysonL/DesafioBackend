@@ -37,23 +37,8 @@ namespace DesafioBackend.Controllers
                 return StatusCode(500, new { mensagem = "Erro interno ao cadastrar entregador" });
             }
         }
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<DeliveryDriver>), 200)]
-        public IActionResult GetAll()
-        {
-            var lista = _deliveryDriverBusiness.GetAll();
-            return Ok(lista);
-        }
-        [HttpGet("{id}")]
-        [ProducesResponseType(typeof(DeliveryDriver), 200)]
-        [ProducesResponseType(typeof(object), 404)]
-        public IActionResult GetById(long id)
-        {
-            var deliveryDriver = _deliveryDriverBusiness.GetById(id);
-            if (deliveryDriver == null)
-                return NotFound(new { mensagem = "Entregador não encontrado" });
-            return Ok(deliveryDriver);
-        }
+       
+
         [HttpPost("{id}/cnh")]
         [ProducesResponseType(typeof(ResponseDTO), 201)]
         [ProducesResponseType(typeof(ResponseDTO), 400)]
@@ -74,15 +59,6 @@ namespace DesafioBackend.Controllers
             _deliveryDriverBusiness.UploadCnhImage(id, imagem_cnh);
             return Created("", new ResponseDTO { Mensagem = "Foto da CNH enviada com sucesso" });
         }
-        //[HttpDelete("{id}")]
-        //[ProducesResponseType(204)]
-        //[ProducesResponseType(400)]
-        //public IActionResult Delete(long id)
-        //{
-        //    if (id <= 0)
-        //        return BadRequest(new { mensagem = "Dados inválidos" });
-        //    _deliveryDriverBusiness.Delete(id);
-        //    return Ok(new { mensagem = "Entregador removido com sucesso" });
-        //}
+       
     }
 }
