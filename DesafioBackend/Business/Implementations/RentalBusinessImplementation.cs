@@ -50,18 +50,10 @@ namespace DesafioBackend.Business.Implementations
         public Rental GetById(long id)
         {
             return _rentalRepository.GetById(id);
-        }
-        public IEnumerable<Rental> GetAll()
-        {
-            return _rentalRepository.GetAll();
-        }
+        }      
         public void RegisterReturn(long id, System.DateTime returnDate)
         {
             _rentalRepository.RegisterReturn(id, returnDate);
-        }
-        public void Delete(long id)
-        {
-            _rentalRepository.Delete(id);
-        }
+        }     
     }
 }

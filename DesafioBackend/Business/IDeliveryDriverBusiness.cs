@@ -5,11 +5,8 @@ namespace DesafioBackend.Business
 {
     public interface IDeliveryDriverBusiness
     {
-        DeliveryDriver Register(DeliveryDriver deliveryDriver);
-        DeliveryDriver GetById(long id);
-        IEnumerable<DeliveryDriver> GetAll();
+        DeliveryDriver Register(DeliveryDriver deliveryDriver);   
         void UploadCnhImage(long id, string cnhImage);
-        void Delete(long id);
-        void SaveCnhImageLocally(long deliveryDriverId, string fileName, byte[] fileBytes);
+      
     }
 }

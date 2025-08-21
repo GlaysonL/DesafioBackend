@@ -21,11 +21,7 @@ namespace DesafioBackend.Repository.Implementations
         public Rental GetById(long id)
         {
             return _context.Locacoes.FirstOrDefault(l => l.Id == id);
-        }
-        public IEnumerable<Rental> GetAll()
-        {
-            return _context.Locacoes.ToList();
-        }
+        }      
         public void RegisterReturn(long id, System.DateTime returnDate)
         {
             var rental = _context.Locacoes.FirstOrDefault(l => l.Id == id);
@@ -61,13 +57,6 @@ namespace DesafioBackend.Repository.Implementations
                 totalValue = expectedDays * rental.DailyRate;
             }
             _context.SaveChanges();
-        }
-        public void Delete(long id)
-        {
-            var rental = _context.Locacoes.FirstOrDefault(l => l.Id == id);
-            if (rental == null) throw new KeyNotFoundException("Locação não encontrada");
-            _context.Locacoes.Remove(rental);
-            _context.SaveChanges();
-        }
+        }      
     }
 }

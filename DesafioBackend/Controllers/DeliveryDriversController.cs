@@ -47,7 +47,7 @@ namespace DesafioBackend.Controllers
             string? imagem_cnh = request?.ImagemCnh != null ? request.ImagemCnh.ToString() : null;
             if (string.IsNullOrEmpty(imagem_cnh))
                 return BadRequest(new ResponseDTO { Mensagem = "Dados inválidos" });
-            // Validação base64
+            
             try
             {
                 Convert.FromBase64String(imagem_cnh);
