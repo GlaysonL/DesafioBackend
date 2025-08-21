@@ -1,7 +1,5 @@
 using DesafioBackend.Model;
 using DesafioBackend.Model.Context;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DesafioBackend.Repository.Implementations
 {

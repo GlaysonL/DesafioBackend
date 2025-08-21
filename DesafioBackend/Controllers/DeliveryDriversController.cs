@@ -1,5 +1,6 @@
 using DesafioBackend.Business;
 using DesafioBackend.Model;
+using DesafioBackend.Model.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -54,15 +55,24 @@ namespace DesafioBackend.Controllers
             return Ok(deliveryDriver);
         }
         [HttpPost("{id}/cnh")]
-        [ProducesResponseType(typeof(object), 201)]
-        [ProducesResponseType(typeof(object), 400)]
-        public IActionResult UploadCnhImage(long id, [FromBody] dynamic body)
+        [ProducesResponseType(typeof(ResponseDTO), 201)]
+        [ProducesResponseType(typeof(ResponseDTO), 400)]
+        public IActionResult UploadCnhImage(long id, [FromBody] CnhResquestDTO request)
         {
-            string? imagem_cnh = body?.imagem_cnh != null ? body.imagem_cnh.ToString() : null;
+            string? imagem_cnh = request?.ImagemCnh != null ? request.ImagemCnh.ToString() : null;
             if (string.IsNullOrEmpty(imagem_cnh))
-                return BadRequest(new { mensagem = "Dados inválidos" });
+                return BadRequest(new ResponseDTO { Mensagem = "Dados inválidos" });
+            // Validação base64
+            try
+            {
+                Convert.FromBase64String(imagem_cnh);
+            }
+            catch (FormatException)
+            {
+                return BadRequest(new ResponseDTO { Mensagem = "A imagem da CNH deve estar em base64." });
+            }
             _deliveryDriverBusiness.UploadCnhImage(id, imagem_cnh);
-            return Created("", new { mensagem = "Foto da CNH enviada com sucesso" });
+            return Created("", new ResponseDTO { Mensagem = "Foto da CNH enviada com sucesso" });
         }
         //[HttpDelete("{id}")]
         //[ProducesResponseType(204)]

@@ -16,7 +16,7 @@ namespace DesafioBackend.Controllers
         }
         [HttpPost]
         [ProducesResponseType(typeof(Rental), 201)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ResponseDTO), 400)]
         public IActionResult Register([FromBody] Rental rental)
         {
             if (rental == null)
@@ -33,7 +33,7 @@ namespace DesafioBackend.Controllers
         }
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Rental), 200)]
-        [ProducesResponseType(typeof(ErrorResponse), 404)]
+        [ProducesResponseType(typeof(ResponseDTO), 404)]
         public IActionResult GetById(long id)
         {
             var rental = _rentalBusiness.GetById(id);
@@ -43,7 +43,7 @@ namespace DesafioBackend.Controllers
         }
         [HttpPut("{id}/devolucao")]
         [ProducesResponseType(typeof(object), 200)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ResponseDTO), 400)]
         public IActionResult RegisterReturn(long id, [FromBody] System.DateTime returnDate)
         {
             _rentalBusiness.RegisterReturn(id, returnDate);
@@ -51,7 +51,7 @@ namespace DesafioBackend.Controllers
         }
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(object), 200)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ResponseDTO), 400)]
         public IActionResult Delete(long id)
         {
             _rentalBusiness.Delete(id);

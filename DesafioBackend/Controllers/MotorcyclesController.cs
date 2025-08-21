@@ -24,8 +24,8 @@ public class MotorcyclesController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(typeof(Motorcycle), 201)]
-    [ProducesResponseType(typeof(ErrorResponse), 400)]
-    [ProducesResponseType(typeof(ErrorResponse), 409)]
+    [ProducesResponseType(typeof(ResponseDTO), 400)]
+    [ProducesResponseType(typeof(ResponseDTO), 409)]
     public IActionResult Register([FromBody] Motorcycle motorcycle)
     {
         if (
@@ -36,7 +36,7 @@ public class MotorcyclesController : ControllerBase
             || motorcycle.Year <= 0
         )
         {
-            return BadRequest(new ErrorResponse { Mensagem = "Dados inválidos" });
+            return BadRequest(new ResponseDTO { Mensagem = "Dados inválidos" });
         }
 
         try
@@ -57,13 +57,13 @@ public class MotorcyclesController : ControllerBase
         }
         catch (InvalidOperationException ex)
         {
-            return Conflict(new ErrorResponse { Mensagem = ex.Message });
+            return Conflict(new ResponseDTO { Mensagem = ex.Message });
         }
     }
 
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<Motorcycle>), 200)]
-    [ProducesResponseType(typeof(ErrorResponse), 404)]
+    [ProducesResponseType(typeof(ResponseDTO), 404)]
     public IActionResult GetAll([FromQuery] string? plate)
     {
         IEnumerable<Motorcycle> motorcycles = _motorcycleBusiness.GetAll(plate);
@@ -76,7 +76,7 @@ public class MotorcyclesController : ControllerBase
 
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(Motorcycle), 200)]
-    [ProducesResponseType(typeof(ErrorResponse), 404)]
+    [ProducesResponseType(typeof(ResponseDTO), 404)]
     public IActionResult GetById(long id)
     {
         try
@@ -92,10 +92,10 @@ public class MotorcyclesController : ControllerBase
 
     [HttpPut("{id}/placa")]
     [ProducesResponseType(typeof(object), 200)]
-    [ProducesResponseType(typeof(ErrorResponse), 400)]
-    [ProducesResponseType(typeof(ErrorResponse), 404)]
-    [ProducesResponseType(typeof(ErrorResponse), 409)]
-    [ProducesResponseType(typeof(ErrorResponse), 500)]
+    [ProducesResponseType(typeof(ResponseDTO), 400)]
+    [ProducesResponseType(typeof(ResponseDTO), 404)]
+    [ProducesResponseType(typeof(ResponseDTO), 409)]
+    [ProducesResponseType(typeof(ResponseDTO), 500)]
     public IActionResult UpdatePlate(long id, [FromBody] dynamic body)
     {
          string? plate = body?.placa != null ? body.placa.ToString() : null;
@@ -123,9 +123,9 @@ public class MotorcyclesController : ControllerBase
 
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(object), 200)]
-    [ProducesResponseType(typeof(ErrorResponse), 400)]
-    [ProducesResponseType(typeof(ErrorResponse), 404)]
-    [ProducesResponseType(typeof(ErrorResponse), 409)]
+    [ProducesResponseType(typeof(ResponseDTO), 400)]
+    [ProducesResponseType(typeof(ResponseDTO), 404)]
+    [ProducesResponseType(typeof(ResponseDTO), 409)]
     public IActionResult Delete(long id)
     {
         if (id <= 0)

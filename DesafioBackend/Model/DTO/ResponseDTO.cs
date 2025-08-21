@@ -1,6 +1,6 @@
 ﻿namespace DesafioBackend.Model
 {
-    public class ErrorResponse
+    public class ResponseDTO
     {
         public string Mensagem { get; set; }
     }
