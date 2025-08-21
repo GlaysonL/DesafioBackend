@@ -211,6 +211,155 @@ Response:
 ```
 
 
+## Endpoints Entregador
+
+### Cadastrar um novo entregador
+
+**POST** `/entregadores`
+
+**Body:**
+```json
+{
+	"nome": "João Silva",
+	"cpf": "12345678900",
+	"dataNascimento": "1990-05-12",
+	"telefone": "11987654321"
+}
+```
+
+**Respostas:**
+- **201 Created**
+	```json
+	{
+		"mensagem": "Entregador cadastrado com sucesso"
+	}
+	```
+- **400 Bad Request**
+	```json
+	{
+		"mensagem": "Dados inválidos"
+	}
+	```
+- **500 Internal Server Error**
+	```json
+	{
+		"mensagem": "Erro interno ao cadastrar entregador"
+	}
+	```
+
+---
+
+### Enviar imagem da CNH do entregador
+
+**POST** `/entregadores/{id}/cnh`
+
+**Body:**
+```json
+{
+	"imagemCnh": "stringBase64"
+}
+```
+
+**Respostas:**
+- **201 Created**
+	```json
+	{
+		"mensagem": "Foto da CNH enviada com sucesso"
+	}
+	```
+- **400 Bad Request**
+	```json
+	{
+		"mensagem": "A imagem da CNH deve estar em base64."
+	}
+	```
+
+---
+
+## Endpoints Locação
+
+### Cadastrar uma nova locação
+
+**POST** `/locacao`
+
+**Body:**
+```json
+{
+	"idMoto": 1,
+	"idEntregador": 2,
+	"dataInicio": "2025-08-21T10:00:00",
+	"dataFimPrevista": "2025-09-21T10:00:00"
+}
+```
+
+**Respostas:**
+- **201 Created**
+	```json
+	{
+		"id": 1,
+		"idMoto": 1,
+		"idEntregador": 2,
+		"dataInicio": "2025-08-21T10:00:00",
+		"dataFimPrevista": "2025-09-21T10:00:00",
+		"dataFimReal": null
+	}
+	```
+- **400 Bad Request**
+	```json
+	{
+		"mensagem": "Dados inválidos"
+	}
+	```
+
+---
+
+### Consultar locação por ID
+
+**GET** `/locacao/{id}`
+
+**Respostas:**
+- **200 OK**
+	```json
+	{
+		"id": 1,
+		"idMoto": 1,
+		"idEntregador": 2,
+		"dataInicio": "2025-08-21T10:00:00",
+		"dataFimPrevista": "2025-09-21T10:00:00",
+		"dataFimReal": null
+	}
+	```
+- **404 Not Found**
+	```json
+	{
+		"mensagem": "Locação não encontrada"
+	}
+	```
+
+---
+
+### Registrar devolução de uma locação
+
+**PUT** `/locacao/{id}/devolucao`
+
+**Body:**
+```json
+"2025-09-20T15:30:00"
+```
+
+**Respostas:**
+- **200 OK**
+	```json
+	{
+		"mensagem": "Data de devolução informada com sucesso"
+	}
+	```
+- **400 Bad Request**
+	```json
+	{
+		"mensagem": "Dados inválidos"
+	}
+	```
 ## Models
 ### Motorcycle
 ```csharp
