@@ -14,9 +14,10 @@ namespace DesafioBackend.Model.Context
         {
         }
         
-        public DbSet<Moto> Motos { get; set; }
-        public DbSet<Entregador> Entregadores { get; set; }
-        public DbSet<Locacao> Locacoes { get; set; }
+        public DbSet<Motorcycle> Motos { get; set; }
+        public DbSet<DeliveryDriver> Entregadores { get; set; }
+        public DbSet<Rental> Locacoes { get; set; }
+      
 
     }
 }
