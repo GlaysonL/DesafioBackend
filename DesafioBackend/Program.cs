@@ -8,6 +8,7 @@ using Serilog;
 
 using EvolveDb;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Rewrite;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,9 +27,14 @@ builder.Services.AddSwaggerGen(settings => {
     settings.SwaggerDoc("v1",
         new OpenApiInfo
         {
-            Title = "Desafio Backend API",
+            Title = "REST API",
             Version = "v1",
-            Description = "API para o Desafio Backend da empresa ****U"
+            Description = "Solution to the Rest Api technical challenge",
+            Contact = new OpenApiContact
+            {
+                Name = "Glayson Leonardo",
+                Url = new Uri("https://github.com/GlaysonL/")
+            }
         });
 });
 
@@ -41,9 +47,19 @@ builder.Services.AddScoped<IRentalRepository, RentalRepositoryImplementation>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
 app.UseHttpsRedirection();
+
+app.UseSwagger();
+app.UseSwaggerUI(settings =>
+{
+    settings.SwaggerEndpoint("/swagger/v1/swagger.json",
+    "Solution to the Rest Api technical challenge - v1");
+});
+
+var option = new RewriteOptions()
+    .AddRedirect("^$", "swagger");
+
+app.UseRewriter(option);
 
 app.UseAuthorization();
 

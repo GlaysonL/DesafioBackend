@@ -1,35 +1,42 @@
+using System.Numerics;
 using Asp.Versioning;
 using DesafioBackend.Business;
 using DesafioBackend.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Numerics;
 
 namespace DesafioBackend.Controllers;
 
-[ApiVersion("1")]
 [ApiController]
-[Route("api/motos/")]
+[Route("motos")]
 public class MotorcyclesController : ControllerBase
-{  
+{
     private readonly ILogger<MotorcyclesController> _logger;
     private IMotorcycleBusiness _motorcycleBusiness;
 
-    public MotorcyclesController(ILogger<MotorcyclesController> logger, IMotorcycleBusiness motorcycleBusiness)
+    public MotorcyclesController(
+        ILogger<MotorcyclesController> logger,
+        IMotorcycleBusiness motorcycleBusiness
+    )
     {
         _logger = logger;
         _motorcycleBusiness = motorcycleBusiness;
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(Motorcycle), 201)]
+    [ProducesResponseType(typeof(ErrorResponse), 400)]
+    [ProducesResponseType(typeof(ErrorResponse), 409)]
     public IActionResult Register([FromBody] Motorcycle motorcycle)
     {
-        if (motorcycle == null ||
-            string.IsNullOrEmpty(motorcycle.Identifier) ||
-            string.IsNullOrEmpty(motorcycle.Model) ||
-            string.IsNullOrEmpty(motorcycle.Plate) ||
-            motorcycle.Year <= 0)
+        if (
+            motorcycle == null
+            || string.IsNullOrEmpty(motorcycle.Identifier)
+            || string.IsNullOrEmpty(motorcycle.Model)
+            || string.IsNullOrEmpty(motorcycle.Plate)
+            || motorcycle.Year <= 0
+        )
         {
-            return BadRequest(new { mensagem = "Dados inválidos" });
+            return BadRequest(new ErrorResponse { Mensagem = "Dados invÃ¡lidos" });
         }
 
         try
@@ -43,46 +50,57 @@ public class MotorcyclesController : ControllerBase
                     Identifier = newMotorcycle.Identifier,
                     Model = newMotorcycle.Model,
                     Plate = newMotorcycle.Plate,
-                    Year = newMotorcycle.Year
+                    Year = newMotorcycle.Year,
                 }
             );
             return Created("", newMotorcycle);
         }
         catch (InvalidOperationException ex)
         {
-            return Conflict(new { mensagem = ex.Message });
+            return Conflict(new ErrorResponse { Mensagem = ex.Message });
         }
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<Motorcycle>), 200)]
+    [ProducesResponseType(typeof(ErrorResponse), 404)]
     public IActionResult GetAll([FromQuery] string? plate)
     {
         IEnumerable<Motorcycle> motorcycles = _motorcycleBusiness.GetAll(plate);
 
         if (!string.IsNullOrEmpty(plate) && !motorcycles.Any())
-            return NotFound(new { mensagem = "Placa não cadastrada!" });
+            return NotFound(new { mensagem = "Placa nï¿½o cadastrada!" });
 
         return Ok(motorcycles);
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(typeof(Motorcycle), 200)]
+    [ProducesResponseType(typeof(ErrorResponse), 404)]
     public IActionResult GetById(long id)
     {
-        var motorcycle = _motorcycleBusiness.GetById(id);
-        if (motorcycle == null)
-            return NotFound(new { mensagem = "Moto não encontrada!" });
-
-        return Ok(motorcycle);
+        try
+        {
+            var motorcycle = _motorcycleBusiness.GetById(id);
+           return Ok(motorcycle);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { mensagem = ex.Message });
+        }       
     }
-    
-    [HttpPut("{id}")]
-    public IActionResult UpdatePlate(long id, [FromBody] string plate)
+
+    [HttpPut("{id}/placa")]
+    [ProducesResponseType(typeof(object), 200)]
+    [ProducesResponseType(typeof(ErrorResponse), 400)]
+    [ProducesResponseType(typeof(ErrorResponse), 404)]
+    [ProducesResponseType(typeof(ErrorResponse), 409)]
+    [ProducesResponseType(typeof(ErrorResponse), 500)]
+    public IActionResult UpdatePlate(long id, [FromBody] dynamic body)
     {
-        if (id <= 0)
-            return BadRequest(new { mensagem = "Dados inválidos" });
-        
-        if (string.IsNullOrEmpty(plate))
-            return BadRequest(new { mensagem = "Dados inválidos" });
+         string? plate = body?.placa != null ? body.placa.ToString() : null;
+        if (id <= 0 || string.IsNullOrEmpty(plate))
+            return BadRequest(new { mensagem = "Dados invÃ¡lidos" });
 
         try
         {
@@ -104,12 +122,19 @@ public class MotorcyclesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(object), 200)]
+    [ProducesResponseType(typeof(ErrorResponse), 400)]
+    [ProducesResponseType(typeof(ErrorResponse), 404)]
+    [ProducesResponseType(typeof(ErrorResponse), 409)]
     public IActionResult Delete(long id)
     {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Dados invÃ¡lidos" });
+
         try
         {
             _motorcycleBusiness.Delete(id);
-            return Ok();
+            return Ok(new { mensagem = "Moto removida com sucesso" });
         }
         catch (KeyNotFoundException ex)
         {
@@ -121,4 +146,3 @@ public class MotorcyclesController : ControllerBase
         }
     }
 }
-

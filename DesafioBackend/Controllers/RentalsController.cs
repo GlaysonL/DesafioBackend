@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace DesafioBackend.Controllers
 {
     [ApiController]
-    [Route("api/locacao")]
+    [Route("locacao")]
     public class RentalsController : ControllerBase
     {
         private readonly IRentalBusiness _rentalBusiness;
@@ -15,6 +15,8 @@ namespace DesafioBackend.Controllers
             _rentalBusiness = rentalBusiness;
         }
         [HttpPost]
+        [ProducesResponseType(typeof(Rental), 201)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         public IActionResult Register([FromBody] Rental rental)
         {
             if (rental == null)
@@ -23,12 +25,15 @@ namespace DesafioBackend.Controllers
             return Created("", newRental);
         }
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Rental>), 200)]
         public IActionResult GetAll()
         {
             var list = _rentalBusiness.GetAll();
             return Ok(list);
         }
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Rental), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 404)]
         public IActionResult GetById(long id)
         {
             var rental = _rentalBusiness.GetById(id);
@@ -37,12 +42,16 @@ namespace DesafioBackend.Controllers
             return Ok(rental);
         }
         [HttpPut("{id}/devolucao")]
+        [ProducesResponseType(typeof(object), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         public IActionResult RegisterReturn(long id, [FromBody] System.DateTime returnDate)
         {
             _rentalBusiness.RegisterReturn(id, returnDate);
             return Ok(new { mensagem = "Data de devolução informada com sucesso" });
         }
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(object), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         public IActionResult Delete(long id)
         {
             _rentalBusiness.Delete(id);

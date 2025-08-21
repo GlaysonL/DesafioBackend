@@ -80,88 +80,88 @@ Resposta:
 ## Endpoints Locacao
 
 ### Criar Locacao
-`POST /api/locacoes/v1`
-Body (JSON):
+**POST** `/api/locacao`
+Body:
 ```json
 {
 	"identificador": "string",
-	"valorDiaria": 100.0,
-	"entregadorId": 1,
-	"motoId": 1,
-	"dataInicio": "2025-08-20T08:00:00",
-	"dataTermino": "2025-08-25T08:00:00",
-	"dataPrevisaoTermino": "2025-08-25T08:00:00",
+	"valor_diaria": 100.0,
+	"entregador_id": 1,
+	"moto_id": 1,
+	"data_inicio": "2025-08-20T08:00:00",
+	"data_termino": "2025-08-25T08:00:00",
+	"data_previsao_termino": "2025-08-25T08:00:00",
 	"plano": 1
 }
 ```
-Resposta:
+Response:
 **201 Created**
 ```json
 {
 	"id": 1,
 	"identificador": "string",
-	"valorDiaria": 100.0,
-	"entregadorId": 1,
-	"motoId": 1,
-	"dataInicio": "2025-08-20T08:00:00",
-	"dataTermino": "2025-08-25T08:00:00",
-	"dataPrevisaoTermino": "2025-08-25T08:00:00",
-	"dataDevolucao": null,
+	"valor_diaria": 100.0,
+	"entregador_id": 1,
+	"moto_id": 1,
+	"data_inicio": "2025-08-20T08:00:00",
+	"data_termino": "2025-08-25T08:00:00",
+	"data_previsao_termino": "2025-08-25T08:00:00",
+	"data_devolucao": null,
 	"plano": 1
 }
 ```
 
-### Consultar Locacoes
-`GET /api/locacoes/v1`
-Resposta:
+### Listar Locacoes
+**GET** `/api/locacao`
+Response:
 **200 OK**
 ```json
 [
 	{
 		"id": 1,
 		"identificador": "string",
-		"valorDiaria": 100.0,
-		"entregadorId": 1,
-		"motoId": 1,
-		"dataInicio": "2025-08-20T08:00:00",
-		"dataTermino": "2025-08-25T08:00:00",
-		"dataPrevisaoTermino": "2025-08-25T08:00:00",
-		"dataDevolucao": null,
+		"valor_diaria": 100.0,
+		"entregador_id": 1,
+		"moto_id": 1,
+		"data_inicio": "2025-08-20T08:00:00",
+		"data_termino": "2025-08-25T08:00:00",
+		"data_previsao_termino": "2025-08-25T08:00:00",
+		"data_devolucao": null,
 		"plano": 1
 	}
 ]
 ```
 
 ### Consultar Locacao por ID
-`GET /api/locacoes/v1/{id}`
-Resposta:
+**GET** `/api/locacao/{id}`
+Response:
 **200 OK**
 ```json
 {
 	"id": 1,
 	"identificador": "string",
-	"valorDiaria": 100.0,
-	"entregadorId": 1,
-	"motoId": 1,
-	"dataInicio": "2025-08-20T08:00:00",
-	"dataTermino": "2025-08-25T08:00:00",
-	"dataPrevisaoTermino": "2025-08-25T08:00:00",
-	"dataDevolucao": null,
+	"valor_diaria": 100.0,
+	"entregador_id": 1,
+	"moto_id": 1,
+	"data_inicio": "2025-08-20T08:00:00",
+	"data_termino": "2025-08-25T08:00:00",
+	"data_previsao_termino": "2025-08-25T08:00:00",
+	"data_devolucao": null,
 	"plano": 1
 }
 ```
-**404 Not Found** (se não existir)
+**404 Not Found**
 
 ### Remover Locacao
-`DELETE /api/locacoes/v1/{id}`
-Resposta:
+**DELETE** `/api/locacao/{id}`
+Response:
 **200 OK**
 ```json
 {
 	"mensagem": "Locacao removida com sucesso"
 }
 ```
-**404 Not Found** (se não existir)
+**404 Not Found**
 
 
 # DesafioBackend
@@ -195,87 +195,111 @@ DesafioBackend/
 - Microsoft.EntityFrameworkCore 9.0.4
 - Npgsql.EntityFrameworkCore.PostgreSQL 9.0.4
 
-## Endpoints
 
-### Criar Moto
-`POST /api/motos/v1`
-Body (JSON):
+## Endpoints Moto
+
+### Cadastrar uma nova moto
+**POST** `/motos`
+Body:
 ```json
 {
-	"identificador": "string",
+	"identificador": "moto123",
 	"ano": 2020,
-	"modelo": "string",
-	"placa": "ABC-1234"
+	"modelo": "Mottu Sport",
+	"placa": "CDX-0101"
 }
 ```
-Resposta:
+Response:
 **201 Created**
 ```json
 {
-	"id": 1,
-	"identificador": "string",
-	"ano": 2020,
-	"modelo": "string",
-	"placa": "ABC-1234"
+	"mensagem": "Moto cadastrada com sucesso"
+}
+```
+**400 Bad Request**
+```json
+{
+	"mensagem": "Dados inválidos"
 }
 ```
 
-### Consultar Motos
-`GET /api/motos/v1?placa=ABC-1234`
-Resposta:
+### Consultar motos existentes
+**GET** `/motos?placa=CDX-0101`
+Response:
 **200 OK**
 ```json
 [
 	{
-		"id": 1,
-		"identificador": "string",
+		"identificador": "moto123",
 		"ano": 2020,
-		"modelo": "string",
-		"placa": "ABC-1234"
+		"modelo": "Mottu Sport",
+		"placa": "CDX-0101"
 	}
 ]
 ```
 
-### Consultar Moto por ID
-`GET /api/motos/v1/{id}`
-Resposta:
+### Consultar moto por ID
+**GET** `/motos/{id}`
+Response:
 **200 OK**
 ```json
 {
-	"id": 1,
-	"identificador": "string",
+	"identificador": "moto123",
 	"ano": 2020,
-	"modelo": "string",
+	"modelo": "Mottu Sport",
+	"placa": "CDX-0101"
+}
+```
+**404 Not Found**
+```json
+{
+	"mensagem": "Moto não encontrada"
+}
+```
+**400 Bad Request**
+```json
+{
+	"mensagem": "Request mal formada"
+}
+```
+
+### Modificar a placa de uma moto
+**PUT** `/motos/{id}/placa`
+Body:
+```json
+{
 	"placa": "ABC-1234"
 }
 ```
-**404 Not Found** (se não existir)
-
-### Modificar Placa
-`PUT /api/motos/v1/{id}`
-Body (string):
-```
-"XYZ-9876"
-```
-Resposta:
+Response:
 **200 OK**
 ```json
 {
 	"mensagem": "Placa modificada com sucesso"
 }
 ```
-**404 Not Found** (se não existir)
+**400 Bad Request**
+```json
+{
+	"mensagem": "Dados inválidos"
+}
+```
 
-### Remover Moto
-`DELETE /api/motos/v1/{id}`
-Resposta:
+### Remover uma moto
+**DELETE** `/motos/{id}`
+Response:
 **200 OK**
 ```json
 {
 	"mensagem": "Moto removida com sucesso"
 }
 ```
-**404 Not Found** (se não existir)
+**400 Bad Request**
+```json
+{
+	"mensagem": "Dados inválidos"
+}
+```
 
 
 ## Models

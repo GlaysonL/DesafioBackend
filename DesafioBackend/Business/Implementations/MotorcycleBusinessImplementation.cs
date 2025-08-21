@@ -23,7 +23,9 @@ namespace DesafioBackend.Business.Implementations
         }
         public Motorcycle GetById(long id)
         {
-            return _motorcycleRepository.GetById(id);
+            var motorcycle = _motorcycleRepository.GetById(id);
+            if (motorcycle == null) throw new KeyNotFoundException("Moto não encontrada");
+            return motorcycle;
         }
         public IEnumerable<Motorcycle> GetAll(string? plate)
         {

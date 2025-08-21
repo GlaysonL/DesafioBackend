@@ -11,7 +11,12 @@ namespace DesafioBackend.Business.Implementations
             _deliveryDriverRepository = deliveryDriverRepository;
         }
         public DeliveryDriver Register(DeliveryDriver deliveryDriver)
-        {
+        {            
+            var validTypes = new[] { "A", "B", "AB" };
+            if (string.IsNullOrWhiteSpace(deliveryDriver.CnhType) || !validTypes.Contains(deliveryDriver.CnhType))
+            {
+                throw new InvalidOperationException("O tipo de CNH deve ser A, B ou AB.");
+            }
             return _deliveryDriverRepository.Register(deliveryDriver);
         }
         public DeliveryDriver GetById(long id)
