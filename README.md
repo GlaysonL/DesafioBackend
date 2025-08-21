@@ -423,3 +423,7 @@ public class Rental {
 ## Considerações finais
 - Foi incluido o suporte a versionamento de API.
   
+## Proximos Passos
+- Habilitar CORS
+- Melhorar logs
+- Adicionar Autenticação
