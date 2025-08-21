@@ -1,20 +1,19 @@
 services:
-  db:
-    image: desafio-backend-db   
-    restart: always
-    build:
-      context: .
-      dockerfile: db/Dockerfile
-    environment:
-     TZ: "America/Sao_Paulo"
-     POSTGRES_DB: mottu
-     POSTGRES_ROOT_PASSWORD: postgres
-     POSTGRES_USER: mUser
-     POSTGRES_PASSWORD: mPass
-    ports:
-      - 3306:3306
-    networks:
-    - desafio-backend-net
+  # db:
+  #   image: desafio-backend-db   
+  #   restart: always
+  #   build:
+  #     context: .
+  #     dockerfile: db/Dockerfile
+  #   environment:
+  #    TZ: "America/Sao_Paulo"
+  #    POSTGRES_DB: mottu
+  #    POSTGRES_USER: mottuUser
+  #    POSTGRES_PASSWORD: mottuPass
+  #   ports:
+  #     - 5433:5432
+  #   networks:
+  #   - desafio-backend-net
 
   desafio-backend:
     image: desafio-backend
@@ -25,9 +24,9 @@ services:
      TZ: "America/Sao_Paulo"
      ASPNETCORE_ENVIRONMENT: Production
     ports:
-      - 44300:80
-    depends_on:
-    - db
+      - 44300:8080
+    # depends_on:
+    # - db
     networks:
     - desafio-backend-net
 networks:
