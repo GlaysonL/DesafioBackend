@@ -38,7 +38,7 @@ A aplicação estará disponível em `https://localhost:44300/swagger`.
 
 Para conectar ao banco de dados dentro do container, ajuste a string de conexão em `appsettings.json`:
 ```json
-"DefaultConnection": "Host=db;Port=5432;Database=mottu;Username=mottuUser;Password=mottuPass;"
+"DefaultConnection": "Host=db;Port=5432;Database=NOMEBANCO;Username=USUARIO;Password=SENHA;"
 ```
 
 ## Como executar localmente
