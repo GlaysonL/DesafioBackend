@@ -114,7 +114,7 @@ Body:
 {
 	"identificador": "moto123",
 	"ano": 2020,
-	"modelo": "Mottu Sport",
+	"modelo": "moto Sport",
 	"placa": "CDX-0101"
 }
 ```
@@ -141,7 +141,7 @@ Response:
 	{
 		"identificador": "moto123",
 		"ano": 2020,
-		"modelo": "Mottu Sport",
+		"modelo": "moto Sport",
 		"placa": "CDX-0101"
 	}
 ]
@@ -155,7 +155,7 @@ Response:
 {
 	"identificador": "moto123",
 	"ano": 2020,
-	"modelo": "Mottu Sport",
+	"modelo": "moto Sport",
 	"placa": "CDX-0101"
 }
 ```
