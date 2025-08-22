@@ -1,6 +1,20 @@
 # DesafioBackend
 
-API REST para gerenciamento de motos, entregadores e locações
+API REST para gerenciamento de motos, entregadores e locações.
+
+## Principais Features
+
+- **Tratamento de erros**: Respostas padronizadas para erros de validação, dados inválidos e exceções internas.
+- **Arquitetura em camadas**: Separação clara entre Controllers, Business, Repository e Model, facilitando manutenção e testes.
+- **Código em inglês**: Todo o código-fonte e nomenclatura seguem padrão internacional.
+- **Suporte a versionamento de API**: Implementado conforme boas práticas, permitindo evolução sem quebra de contratos.
+- **Utilização do Entity Framework Core**: ORM para persistência, migrations e relacionamento entre entidades.
+- **Suporte a Docker e Docker Compose**: Deploy facilitado e ambiente isolado para desenvolvimento e produção.
+- **Documentação interativa via Swagger**: Exploração dos endpoints diretamente pelo navegador.
+- **Migrations automáticas com Evolve**: Controle de versões do banco de dados.
+- **Configuração flexível via appsettings.json**: Facilita adaptação para diferentes ambientes.
+- **Pronto para integração com autenticação e CORS**: Estrutura preparada para futuras melhorias de segurança.
+- **Logging estruturado com Serilog**: Monitoramento e rastreabilidade das operações. [Em andamento]
 
 ## Tecnologias Utilizadas
 - .NET 8.0
@@ -57,12 +71,6 @@ Para conectar ao banco de dados dentro do container, ajuste a string de conexão
 	dotnet run --project DesafioBackend/DesafioBackend.csproj
 	```
 5. Acesse os endpoints via Postman, Insomnia ou navegador
-
-## Observações
-- O arquivo `appsettings.json` contém as configurações de banco de dados.
-- O projeto está organizado por domínio (Controllers, Model, Business, Repository).
-- Para desenvolvimento, utilize o ambiente `Development` e configure o banco local.
-- Para produção, utilize Docker e configure o banco conforme o ambiente.
 
 ## Estrutura do Projeto
 
@@ -404,9 +412,12 @@ public class Rental {
 }
 ```
 ## Considerações finais
-- Foi incluido o suporte a versionamento de API.
-  
-## Proximos Passos
+- Foi incluído o suporte a versionamento de API.
+- Código organizado e documentado para facilitar manutenção e evolução.
+- Utilização de boas práticas de arquitetura e desenvolvimento.
+
+## Próximos Passos
 - Habilitar CORS
 - Melhorar logs
-- Adicionar Autenticação
+- Adicionar autenticação
+- Habilitar Mensageria
