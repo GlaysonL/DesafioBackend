@@ -48,13 +48,24 @@ builder.Services.AddScoped<IRentalRepository, RentalRepositoryImplementation>();
 
 var app = builder.Build();
 
-// Inicializa o consumidor RabbitMQ para eventos de moto cadastrada
-using (var scope = app.Services.CreateScope())
+app.Lifetime.ApplicationStarted.Register(() =>
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<IDbContextFactory<AppDbContext>>();
-    var consumer = new MotorcycleRegisteredConsumer(dbContext);
-    consumer.Start();
-}
+    Task.Run(() =>
+    {
+        try
+        {
+            using var scope = app.Services.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<IDbContextFactory<AppDbContext>>();
+            var consumer = new MotorcycleRegisteredConsumer(dbContext);
+            consumer.Start();
+            Console.WriteLine("RabbitMQ consumer iniciado com sucesso.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Falha ao iniciar o consumidor RabbitMQ: {ex.Message}");
+        }
+    });
+});
 
 app.UseHttpsRedirection();
 

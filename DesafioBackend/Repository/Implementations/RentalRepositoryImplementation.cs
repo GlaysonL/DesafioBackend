@@ -1,41 +1,44 @@
-using DesafioBackend.Model;
-using DesafioBackend.Model.Context;
 using System.Collections.Generic;
 using System.Linq;
+using DesafioBackend.Model;
+using DesafioBackend.Model.Context;
 
 namespace DesafioBackend.Repository.Implementations
 {
     public class RentalRepositoryImplementation : IRentalRepository
     {
         private readonly AppDbContext _context;
+
         public RentalRepositoryImplementation(AppDbContext context)
         {
             _context = context;
         }
+
         public Rental Register(Rental rental)
         {
             _context.Locacoes.Add(rental);
             _context.SaveChanges();
             return rental;
         }
+
         public Rental GetById(long id)
         {
             return _context.Locacoes.FirstOrDefault(l => l.Id == id);
-        }      
+        }
+
         public void RegisterReturn(long id, System.DateTime returnDate)
         {
             var rental = _context.Locacoes.FirstOrDefault(l => l.Id == id);
-            if (rental == null) throw new KeyNotFoundException("Locação não encontrada");
+            if (rental == null)
+                throw new KeyNotFoundException("LocaÃ§Ã£o nÃ£o encontrada");
             rental.ReturnDate = returnDate;
 
-            // Cálculo do valor total da locação
             int expectedDays = (rental.ExpectedEndDate - rental.StartDate).Days + 1;
             int actualDays = (returnDate - rental.StartDate).Days + 1;
             decimal totalValue = 0m;
 
             if (returnDate < rental.ExpectedEndDate)
             {
-                // Devolução antecipada
                 int unusedDays = expectedDays - actualDays;
                 totalValue = actualDays * rental.DailyRate;
                 decimal penalty = 0m;
@@ -47,16 +50,16 @@ namespace DesafioBackend.Repository.Implementations
             }
             else if (returnDate > rental.ExpectedEndDate)
             {
-                // Devolução tardia
                 int extraDays = (returnDate - rental.ExpectedEndDate).Days;
                 totalValue = expectedDays * rental.DailyRate + (extraDays * 50.00m);
             }
             else
             {
-                // Devolução no prazo
                 totalValue = expectedDays * rental.DailyRate;
             }
+
+            rental.DailyRate = totalValue / actualDays;
             _context.SaveChanges();
-        }      
+        }
     }
 }
