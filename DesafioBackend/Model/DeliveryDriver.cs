@@ -17,35 +17,35 @@ public class DeliveryDriver
     [Required]
     [Column("identificador")]
     [JsonPropertyName("identificador")]
-    public string Identifier { get; set; }
+    public required string Identifier { get; set; }
 
     [Required]
     [Column("nome")]
     [JsonPropertyName("nome")]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     [Required]
     [Column("cnpj")]
     [JsonPropertyName("cnpj")]
-    public string Cnpj { get; set; }
+    public required string Cnpj { get; set; }
 
     [Required]
     [Column("data_nascimento")]
     [JsonPropertyName("data_nascimento")]
-    public DateTime BirthDate { get; set; }
+    public required DateTime BirthDate { get; set; }
 
     [Required]
     [Column("numero_cnh")]
     [JsonPropertyName("numero_cnh")]
-    public string CnhNumber { get; set; }
+    public required string CnhNumber { get; set; }
 
     [Required]
     [Column("tipo_cnh")]
     [JsonPropertyName("tipo_cnh")]
-    public string CnhType { get; set; }
+    public required string CnhType { get; set; }
 
     [Required]
     [Column("imagem_cnh")]
     [JsonPropertyName("imagem_cnh")]
-    public string CnhImage { get; set; }
+    public required string CnhImage { get; set; }
 }

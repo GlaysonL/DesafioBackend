@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 namespace DesafioBackend.Model;
 
@@ -18,18 +18,19 @@ public class Motorcycle
     [Required]
     [Column("identificador")]
     [JsonPropertyName("identificador")]
-    public string Identifier { get; set; }
+    public required string Identifier { get; set; }
+
     [Column("ano")]
     [JsonPropertyName("ano")]
     public int Year { get; set; }
+
     [Required]
     [Column("modelo")]
     [JsonPropertyName("modelo")]
-    public string Model { get; set; }
+    public required string Model { get; set; }
 
     [Required]
     [Column("placa")]
     [JsonPropertyName("placa")]
-    public string Plate { get; set; }
+    public required string Plate { get; set; }
 }
-

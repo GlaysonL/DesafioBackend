@@ -6,21 +6,24 @@ namespace DesafioBackend.Repository.Implementations
     public class DeliveryDriverRepositoryImplementation : IDeliveryDriverRepository
     {
         private readonly AppDbContext _context;
+
         public DeliveryDriverRepositoryImplementation(AppDbContext context)
         {
             _context = context;
         }
+
         public DeliveryDriver Register(DeliveryDriver deliveryDriver)
         {
             _context.Entregadores.Add(deliveryDriver);
             _context.SaveChanges();
             return deliveryDriver;
-        }     
-      
+        }
+
         public void UploadCnhImage(long id, string cnhImage)
         {
             var deliveryDriver = _context.Entregadores.FirstOrDefault(e => e.Id == id);
-            if (deliveryDriver == null) throw new KeyNotFoundException("Entregador n�o encontrado");
+            if (deliveryDriver == null)
+                throw new KeyNotFoundException("Entregador n�o encontrado");
 
             // Decodifica a imagem base64
             byte[] imageBytes = Convert.FromBase64String(cnhImage);
@@ -37,7 +40,7 @@ namespace DesafioBackend.Repository.Implementations
             deliveryDriver.CnhImage = filePath;
             _context.SaveChanges();
         }
-       
+
         public IEnumerable<DeliveryDriver> GetAll()
         {
             return _context.Entregadores.ToList();

@@ -8,6 +8,6 @@ namespace DesafioBackend.Business
         Motorcycle GetById(long id);
         IEnumerable<Motorcycle> GetAll(string? plate);
         Motorcycle UpdatePlate(long id, string plate);
-        void Delete(long id);        
+        void Delete(long id);
     }
 }

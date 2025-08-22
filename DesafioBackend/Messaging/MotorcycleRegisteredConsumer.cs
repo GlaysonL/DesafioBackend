@@ -1,10 +1,10 @@
+using System.Text;
+using System.Text.Json;
 using DesafioBackend.Model;
 using DesafioBackend.Model.Context;
 using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Text;
-using System.Text.Json;
 
 namespace DesafioBackend.Messaging
 {
@@ -24,7 +24,13 @@ namespace DesafioBackend.Messaging
             var factory = new ConnectionFactory() { HostName = _hostname };
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
-            channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
+            channel.QueueDeclare(
+                queue: _queueName,
+                durable: false,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null
+            );
 
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (model, ea) =>
@@ -42,7 +48,7 @@ namespace DesafioBackend.Messaging
                         Model = motoEvent.Model,
                         Plate = motoEvent.Plate,
                         Year = motoEvent.Year,
-                        ReceivedAt = DateTime.UtcNow
+                        ReceivedAt = DateTime.UtcNow,
                     };
                     dbContext.MotorcycleNotifications.Add(notification);
                     dbContext.SaveChanges();

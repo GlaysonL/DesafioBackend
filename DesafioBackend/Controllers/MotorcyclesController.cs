@@ -41,9 +41,9 @@ public class MotorcyclesController : ControllerBase
         try
         {
             var newMotorcycle = _motorcycleBusiness.Register(motorcycle);
-            
+
             var publisher = new MotorcycleRegisteredPublisher();
-          
+
             publisher.Publish(newMotorcycle);
             _logger.LogInformation(
                 "Moto criada com sucesso: {@Motorcycle}",
@@ -85,12 +85,12 @@ public class MotorcyclesController : ControllerBase
         try
         {
             var motorcycle = _motorcycleBusiness.GetById(id);
-           return Ok(motorcycle);
+            return Ok(motorcycle);
         }
         catch (KeyNotFoundException ex)
         {
             return NotFound(new { mensagem = ex.Message });
-        }       
+        }
     }
 
     [HttpPut("{id}/placa")]
@@ -101,7 +101,7 @@ public class MotorcyclesController : ControllerBase
     [ProducesResponseType(typeof(ResponseDTO), 500)]
     public IActionResult UpdatePlate(long id, [FromBody] dynamic body)
     {
-         string? plate = body?.placa != null ? body.placa.ToString() : null;
+        string? plate = body?.placa != null ? body.placa.ToString() : null;
         if (id <= 0 || string.IsNullOrEmpty(plate))
             return BadRequest(new { mensagem = "Dados inválidos" });
 

@@ -18,20 +18,20 @@ namespace DesafioBackend.Model
 
         [Required]
         [Column("identificador")]
-        public string Identifier { get; set; }
+        public required string Identifier { get; set; }
 
         [Required]
         [Column("modelo")]
-        public string Model { get; set; }
+        public required string Model { get; set; }
 
         [Required]
         [Column("placa")]
-        public string Plate { get; set; }
+        public required string Plate { get; set; }
 
         [Column("ano")]
-        public int Year { get; set; }
+        public required int Year { get; set; }
 
         [Column("receivedat")]
-        public DateTime ReceivedAt { get; set; }
+        public required DateTime ReceivedAt { get; set; }
     }
 }

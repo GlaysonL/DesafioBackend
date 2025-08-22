@@ -1,5 +1,4 @@
 using DesafioBackend.Model;
-using System.Collections.Generic;
 
 namespace DesafioBackend.Business
 {

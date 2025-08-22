@@ -23,14 +23,13 @@ namespace DesafioBackend.Repository.Implementations
 
         public Rental GetById(long id)
         {
-            return _context.Locacoes.FirstOrDefault(l => l.Id == id);
+            return _context.Locacoes.FirstOrDefault(l => l.Id == id)
+                ?? throw new KeyNotFoundException("Locação não encontrada");
         }
 
         public void RegisterReturn(long id, System.DateTime returnDate)
         {
-            var rental = _context.Locacoes.FirstOrDefault(l => l.Id == id);
-            if (rental == null)
-                throw new KeyNotFoundException("Locação não encontrada");
+            var rental = GetById(id);
             rental.ReturnDate = returnDate;
 
             int expectedDays = (rental.ExpectedEndDate - rental.StartDate).Days + 1;
