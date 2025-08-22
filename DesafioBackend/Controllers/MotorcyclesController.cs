@@ -41,7 +41,7 @@ public class MotorcyclesController : ControllerBase
         try
         {
             var newMotorcycle = _motorcycleBusiness.Register(motorcycle);
-            // Publica evento no RabbitMQ
+            
             var publisher = new MotorcycleRegisteredPublisher();
           
             publisher.Publish(newMotorcycle);
