@@ -15,6 +15,7 @@ API REST para gerenciamento de motos, entregadores e locações.
 - **Configuração flexível via appsettings.json**: Facilita adaptação para diferentes ambientes.
 - **Pronto para integração com autenticação e CORS**: Estrutura preparada para futuras melhorias de segurança.
 - **Logging estruturado com Serilog**: Monitoramento e rastreabilidade das operações. [Em andamento]
+- **Mensageria com RabbitMQ**: Notificação e persistência de cadastro de motos do ano de 2024.
 
 ## Tecnologias Utilizadas
 - .NET 8.0
@@ -26,6 +27,7 @@ API REST para gerenciamento de motos, entregadores e locações.
 - Evolve (migrations)
 - Docker e Docker Compose
 - PostgreSQL
+- RabbitMQ (mensageria)
 
 ## Arquitetura
 - Projeto estruturado em camadas:
@@ -34,10 +36,12 @@ API REST para gerenciamento de motos, entregadores e locações.
   - Business: Regras de negócio (interfaces e implementações)
   - Repository: Persistência de dados (interfaces e implementações)
   - Migrations: Controle de versões do banco
+  - Mensageria: Integração com RabbitMQ para eventos
 - API versioning habilitado
 - Swagger para documentação interativa
 - Injeção de dependência para serviços e repositórios
 - Logging com Serilog
+- RabbitMQ para eventos de cadastro de motos 2024
 
 ## Docker
 O projeto pode ser executado em containers Docker. O arquivo `docker-compose.yml` define os serviços:
@@ -53,6 +57,69 @@ A aplicação estará disponível em `https://localhost:44300/swagger`.
 Para conectar ao banco de dados dentro do container, ajuste a string de conexão em `appsettings.json`:
 ```json
 "DefaultConnection": "Host=db;Port=5432;Database=NOMEBANCO;Username=USUARIO;Password=SENHA;"
+```
+
+## Mensageria com RabbitMQ
+
+Quando uma moto do ano de **2024** é cadastrada, o sistema publica uma mensagem no RabbitMQ. Um consumidor escuta essa fila e salva a notificação no banco de dados.
+
+- **Producer:** Ao cadastrar uma moto do ano 2024, uma mensagem é enviada para a fila `moto_cadastrada`.
+- **Consumer:** Um serviço consome essa fila e registra a notificação no banco, permitindo rastreabilidade e integração com outros sistemas.
+
+### Exemplo de fluxo
+
+1. **POST** `/motos` com body:
+    ```json
+    {
+        "identificador": "moto2024",
+        "ano": 2024,
+        "modelo": "Nova Moto",
+        "placa": "XYZ-2024"
+    }
+    ```
+2. O backend verifica o ano e publica uma mensagem no RabbitMQ.
+3. O consumidor recebe a mensagem e salva uma notificação no banco.
+
+<!-- #### Configuração RabbitMQ no Docker Compose
+
+```yaml
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+``` -->
+Para visualizar via RabbitMQ Management Web UI
+
+1. Certifique-se de que o Management Plugin está habilitado:
+```bash
+
+   rabbitmq-plugins enable rabbitmq_management
+
+```
+2. Acesse pelo navegador:
+
+```bash
+
+   http://localhost:15672
+
+```
+- Usuário padrão: guest
+- Senha padrão: guest
+ 
+
+
+#### Exemplo de mensagem publicada
+
+```json
+{
+    "identificador": "moto2024",
+    "ano": 2024,
+    "modelo": "Nova Moto",
+    "placa": "XYZ-2024",
+    "dataCadastro": "2024-06-01T10:00:00"
+}
 ```
 
 ## Como executar localmente
@@ -104,6 +171,9 @@ DesafioBackend/
 │       └── RentalRepositoryImplementation.cs
 ├── Migrations/
 │   └── <arquivos de migração do EF Core>
+├── Messaging/
+│   ├── MotorcycleRegisteredConsumer.cs
+│   └── MotorcycleRegisteredPublisher.cs
 ├── Program.cs
 ├── appsettings.json
 ├── appsettings.Development.json
@@ -411,13 +481,7 @@ public class Rental {
 	public int Plano { get; set; }
 }
 ```
-## Considerações finais
-- Foi incluído o suporte a versionamento de API.
-- Código organizado e documentado para facilitar manutenção e evolução.
-- Utilização de boas práticas de arquitetura e desenvolvimento.
-
 ## Próximos Passos
 - Habilitar CORS
 - Melhorar logs
 - Adicionar autenticação
-- Habilitar Mensageria
