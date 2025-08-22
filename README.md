@@ -448,10 +448,10 @@ Response:
 ```csharp
 public class Motorcycle {
 	public long Id { get; set; }
-	public string Identificador { get; set; }
-	public int Ano { get; set; }
-	public string Modelo { get; set; }
-	public string Placa { get; set; }
+	public string Identifier { get; set; }
+	public int Year { get; set; }
+	public string Model { get; set; }
+	public string PlPlateaca { get; set; }
 }
 ```
 
@@ -459,13 +459,13 @@ public class Motorcycle {
 ```csharp
 public class DeliveryDriver {
 	public long Id { get; set; }
-	public string Identificador { get; set; }
-	public string Nome { get; set; }
+	public string Identifier { get; set; }
+	public string Name { get; set; }
 	public string Cnpj { get; set; }
-	public DateTime DataNascimento { get; set; }
-	public string NumeroCnh { get; set; }
-	public string TipoCnh { get; set; }
-	public string ImagemCnh { get; set; }
+	public DateTime BirthDate { get; set; }
+	public string CnhNumber { get; set; }
+	public string CnhType { get; set; }
+	public string CnhImage { get; set; }
 }
 ```
 
@@ -473,20 +473,21 @@ public class DeliveryDriver {
 ```csharp
 public class Rental {
 	public long Id { get; set; }
-	public string Identificador { get; set; }
-	public decimal ValorDiaria { get; set; }
+	public string Identifier { get; set; }
+	public decimal DailyRate { get; set; }
 	public long DeliveryDriverId { get; set; }
 	public DeliveryDriver DeliveryDriver { get; set; }
 	public long MotorcycleId { get; set; }
 	public Motorcycle Motorcycle { get; set; }
-	public DateTime DataInicio { get; set; }
-	public DateTime DataTermino { get; set; }
-	public DateTime DataPrevisaoTermino { get; set; }
-	public DateTime? DataDevolucao { get; set; }
-	public int Plano { get; set; }
+	public DateTime StartDate { get; set; }
+	public DateTime EndDate { get; set; }
+	public DateTime ExpectedEndDate { get; set; }
+	public DateTime? ReturnDate { get; set; }
+	public int Plan { get; set; }
 }
 ```
 ## Próximos Passos
+- Testes unitarios
 - Habilitar CORS
 - Melhorar logs
 - Adicionar autenticação
