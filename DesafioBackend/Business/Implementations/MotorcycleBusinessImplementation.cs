@@ -18,7 +18,11 @@ namespace DesafioBackend.Business.Implementations
             return _motorcycleRepository.UpdatePlate(id, plate);            
         }
         public Motorcycle Register(Motorcycle motorcycle)
-        {           
+        {            
+            if (_motorcycleRepository.GetAll(motorcycle.Plate).Any())
+            {
+                throw new InvalidOperationException($"Já existe uma moto cadastrada com a placa {motorcycle.Plate}");
+            }
             return _motorcycleRepository.Register(motorcycle);
         }
         public Motorcycle GetById(long id)

@@ -44,8 +44,8 @@ namespace DesafioBackend.Repository.Implementations
 
         public Motorcycle Register(Motorcycle motorcycle)
         {
-            if (_context.Motos.Any(m => m.Plate == motorcycle.Plate))
-                throw new InvalidOperationException($"Já existe uma moto cadastrada com a placa {motorcycle.Plate}");
+            // if (_context.Motos.Any(m => m.Plate == motorcycle.Plate))
+            //     throw new InvalidOperationException($"Já existe uma moto cadastrada com a placa {motorcycle.Plate}");
 
             try
             {
