@@ -1,6 +1,5 @@
-using System.Numerics;
-using Asp.Versioning;
 using DesafioBackend.Business;
+using DesafioBackend.Messaging;
 using DesafioBackend.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,6 +41,10 @@ public class MotorcyclesController : ControllerBase
         try
         {
             var newMotorcycle = _motorcycleBusiness.Register(motorcycle);
+            // Publica evento no RabbitMQ
+            var publisher = new MotorcycleRegisteredPublisher();
+          
+            publisher.Publish(newMotorcycle);
             _logger.LogInformation(
                 "Moto criada com sucesso: {@Motorcycle}",
                 new

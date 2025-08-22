@@ -9,6 +9,7 @@ using Serilog;
 using EvolveDb;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Rewrite;
+using DesafioBackend.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,10 @@ builder.Services.AddControllers();
 
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseNpgsql(connection));
+
+builder.Services.AddDbContextFactory<AppDbContext>(options =>
     options.UseNpgsql(connection));
 
 builder.Services.AddApiVersioning();
@@ -46,6 +50,14 @@ builder.Services.AddScoped<IRentalBusiness, RentalBusinessImplementation>();
 builder.Services.AddScoped<IRentalRepository, RentalRepositoryImplementation>();
 
 var app = builder.Build();
+
+// Inicializa o consumidor RabbitMQ para eventos de moto cadastrada
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<IDbContextFactory<AppDbContext>>();
+    var consumer = new MotorcycleRegisteredConsumer(dbContext);
+    consumer.Start();
+}
 
 app.UseHttpsRedirection();
 
