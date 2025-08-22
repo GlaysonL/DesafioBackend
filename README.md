@@ -366,10 +366,12 @@ Response:
 **Body:**
 ```json
 {
-	"idMoto": 1,
-	"idEntregador": 2,
-	"dataInicio": "2025-08-21T10:00:00",
-	"dataFimPrevista": "2025-09-21T10:00:00"
+  "entregador_id": "entregador123",
+  "moto_id": "moto123",
+  "data_inicio": "2024-01-01T00:00:00Z",
+  "data_termino": "2024-01-07T23:59:59Z",
+  "data_previsao_termino": "2024-01-07T23:59:59Z",
+  "plano": 7
 }
 ```
 
