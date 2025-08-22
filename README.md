@@ -298,10 +298,13 @@ Response:
 **Body:**
 ```json
 {
-	"nome": "João Silva",
-	"cpf": "12345678900",
-	"dataNascimento": "1990-05-12",
-	"telefone": "11987654321"
+  "identificador": "entregador123",
+  "nome": "João da Silva",
+  "cnpj": "12345678901234",
+  "data_nascimento": "1990-01-01T00:00:00Z",
+  "numero_cnh": "12345678900",
+  "tipo_cnh": "A",
+  "imagem_cnh": "base64string"
 }
 ```
 
@@ -334,7 +337,7 @@ Response:
 **Body:**
 ```json
 {
-	"imagemCnh": "stringBase64"
+  "imagem_cnh": "base64string"
 }
 ```
 
