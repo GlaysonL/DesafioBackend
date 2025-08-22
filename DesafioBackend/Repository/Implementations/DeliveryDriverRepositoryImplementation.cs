@@ -20,7 +20,7 @@ namespace DesafioBackend.Repository.Implementations
         public void UploadCnhImage(long id, string cnhImage)
         {
             var deliveryDriver = _context.Entregadores.FirstOrDefault(e => e.Id == id);
-            if (deliveryDriver == null) throw new KeyNotFoundException("Entregador não encontrado");
+            if (deliveryDriver == null) throw new KeyNotFoundException("Entregador nï¿½o encontrado");
 
             // Decodifica a imagem base64
             byte[] imageBytes = Convert.FromBase64String(cnhImage);
@@ -38,5 +38,9 @@ namespace DesafioBackend.Repository.Implementations
             _context.SaveChanges();
         }
        
+        public IEnumerable<DeliveryDriver> GetAll()
+        {
+            return _context.Entregadores.ToList();
+        }
     }
 }

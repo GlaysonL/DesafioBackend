@@ -17,6 +17,21 @@ namespace DesafioBackend.Business.Implementations
             {
                 throw new InvalidOperationException("O tipo de CNH deve ser A, B ou AB.");
             }
+
+            var existingByCnpj = _deliveryDriverRepository.GetAll()
+                .Any(d => d.Cnpj == deliveryDriver.Cnpj);
+            if (existingByCnpj)
+            {
+                throw new InvalidOperationException($"Já existe um entregador cadastrado com o CNPJ {deliveryDriver.Cnpj}");
+            }
+            
+            var existingByCnh = _deliveryDriverRepository.GetAll()
+                .Any(d => d.CnhNumber == deliveryDriver.CnhNumber);
+            if (existingByCnh)
+            {
+                throw new InvalidOperationException($"Já existe um entregador cadastrado com o número de CNH {deliveryDriver.CnhNumber}");
+            }
+
             return _deliveryDriverRepository.Register(deliveryDriver);
         }
        
